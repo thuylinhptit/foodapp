@@ -1,22 +1,33 @@
 import 'dart:convert' as convert;
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-Future<http.Response> postLogin(String email, String password) async {
-  var url = Uri.parse("http://192.168.1.109:8000/login");
+List<dynamic> dataUser = [];
+Future<bool> postLogin(String email, String password) async {
+  var url = Uri.parse("http://10.0.2.2:8000/login");
   Map data2 = {
     "email": email,
     "password": password,
   };
   var body = convert.json.encode(data2);
 
-  var response = await http.post(url, body: body);
-  return response;
+  var headers = ({"Content-Type": "application/json"});
+
+  var response = await http.post(url, headers: headers, body: body);
+  print(response.body);
+  var data = convert.jsonDecode(response.body);
+  dataUser = data["result"];
+  if (data["message"] == "Login successful") {
+    return true;
+  }
+  return false;
 }
 
-Future<http.Response> postSignUp(String name, String email, String phone,
-    String address, String password) async {
-  var url = Uri.parse('localhost:8000/sign-up');
+Future<bool> postSignUp(String name, String email, String phone, String address,
+    String password) async {
+  var url = Uri.parse("http://10.0.2.2:8000/sign-up");
   Map data2 = {
     "name": name,
     "email": email,
@@ -26,24 +37,33 @@ Future<http.Response> postSignUp(String name, String email, String phone,
   };
   var body = convert.json.encode(data2);
 
-  var response = await http.post(url, body: body);
-  return response;
+  var headers = ({"Content-Type": "application/json"});
+
+  var response = await http.post(url, headers: headers, body: body);
+  print(response.body);
+  var data = convert.jsonDecode(response.body);
+  if (data["message"] == "Sign up successfully") {
+    return true;
+  }
+  return false;
 }
 
 Future<dynamic> getItem() async {
-  var url = Uri.parse('localhost:8000/item');
-  var dataDevice;
-  var response = await http.get(
-    url,
-  );
-  if (response.statusCode == 200) {
-    var jsonResponse =
-        convert.jsonDecode(response.body) as Map<String, dynamic>;
-    dataDevice = jsonResponse;
-  } else {
-    print('Request failed with status: ${response.statusCode}.');
-  }
-  return dataDevice;
+  var client = HttpClient();
+  HttpClientRequest request = await client.get('10.0.2.2', 8000, '/item');
+  HttpClientResponse response = await request.close();
+  String data = await response.transform(utf8.decoder).join();
+  return data;
+}
+
+Future<dynamic> getCountItem() async {
+  var client = HttpClient();
+  HttpClientRequest request = await client.get('10.0.2.2', 8000, '/item');
+  HttpClientResponse response = await request.close();
+  String data = await response.transform(utf8.decoder).join();
+  var r = convert.jsonDecode(data)["result"];
+  print(r);
+  // return data["result"];
 }
 
 Future<dynamic> getItemId(int id) async {

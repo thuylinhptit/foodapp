@@ -9,6 +9,7 @@ class MyOrderScreen extends StatelessWidget {
   static const routeName = "/myOrderScreen";
   @override
   Widget build(BuildContext context) {
+    int count = 0;
     return Scaffold(
       body: Stack(
         children: [
@@ -36,82 +37,6 @@ class MyOrderScreen extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: SizedBox(
-                    height: 80,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            height: 80,
-                            width: 80,
-                            child: Image.asset(
-                              Helper.getAssetName("hamburger.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              "King Burgers",
-                              style: Helper.getTheme(context).headline3,
-                            ),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  Helper.getAssetName(
-                                    "star_filled.png",
-                                    "virtual",
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Text(
-                                  "4.9",
-                                  style: TextStyle(
-                                    color: AppColor.orange,
-                                  ),
-                                ),
-                                const Text(" (124 đánh giá)"),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  height: 15,
-                                  child: Image.asset(
-                                    Helper.getAssetName(
-                                      "loc.png",
-                                      "virtual",
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Text("Số 150 Hoàng Hoa Thám, Hà Nội")
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
                 Container(
                   width: double.infinity,
                   color: AppColor.placeholderBg,
@@ -124,6 +49,7 @@ class MyOrderScreen extends StatelessWidget {
                             return const BurgerCard(
                               price: "17",
                               name: "Cheese Chicken Burger",
+                              image: "hamburger.jpg",
                             );
                           })),
                 ),
@@ -241,8 +167,8 @@ class MyOrderScreen extends StatelessWidget {
                             width: 150,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(CheckoutScreen.routeName);
+                                // Navigator.of(context)
+                                //     .pushNamed(CheckoutScreen.routeName);
                               },
                               child: Text("Đặt hàng"),
                             ),
@@ -253,8 +179,8 @@ class MyOrderScreen extends StatelessWidget {
                             width: 150,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(CheckoutScreen.routeName);
+                                // Navigator.of(context)
+                                //     .pushNamed(CheckoutScreen.routeName);
                               },
                               child: Text("Xoá"),
                             ),
@@ -272,7 +198,7 @@ class MyOrderScreen extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
+          const Positioned(
             bottom: 0,
             left: 0,
             child: CustomNavBar(),
@@ -287,48 +213,87 @@ class BurgerCard extends StatelessWidget {
   const BurgerCard({
     required String name,
     required String price,
+    required String image,
     bool isLast = false,
   })  : _name = name,
         _price = price,
-        _isLast = isLast;
+        _isLast = isLast,
+        _image = image;
 
   final String _name;
   final String _price;
   final bool _isLast;
+  final String _image;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: _isLast
-              ? BorderSide.none
-              : BorderSide(
-                  color: AppColor.placeholder.withOpacity(0.25),
-                ),
-        ),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              "${_name} x1",
-              style: TextStyle(
-                color: AppColor.primary,
-                fontSize: 16,
+    TextEditingController textEditingController = TextEditingController();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: SizedBox(
+          height: 150,
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      child: Image.asset(
+                        Helper.getAssetName("${_image}", "real"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "${_name}",
+                    style: Helper.getTheme(context).headline3,
+                  ),
+                  Spacer(),
+                  Text(
+                    "${_price}",
+                    style: Helper.getTheme(context).headline3,
+                  ),
+                ],
               ),
-            ),
-          ),
-          Text(
-            "\$$_price",
-            style: TextStyle(
-              color: AppColor.primary,
-              fontSize: 16,
-              fontWeight: FontWeight.w900,
-            ),
-          )
-        ],
-      ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Text(
+                    "So luong: ",
+                    style: Helper.getTheme(context).headline3,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 30,
+                    child: TextField(
+                      //  selectionControls: TextSelection.fromPosition(TextPosition(offset: textEditingController.text.length)),
+                      controller: textEditingController,
+                      decoration: InputDecoration(
+                        hintText: "8",
+                        hintStyle: Helper.getTheme(context).headline3,
+                      ),
+                      // onChanged: (val) {
+                      //   textEditingController.text = val;
+                      // },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              )
+            ],
+          )),
     );
   }
 }

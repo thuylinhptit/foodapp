@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food/data/data_login.dart';
 import 'package:food/screens/myOrderScreen.dart';
 
 import '../const/colors.dart';
@@ -9,6 +10,7 @@ class ProfileScreen extends StatelessWidget {
   static const routeName = "/profileScreen";
   @override
   Widget build(BuildContext context) {
+    print(dataUser);
     return Scaffold(
       body: Stack(
         children: [
@@ -72,21 +74,21 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            Helper.getAssetName("edit_filled.png", "virtual"),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "Chỉnh sửa thông tin",
-                            style: TextStyle(color: AppColor.orange),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     Image.asset(
+                      //       Helper.getAssetName("edit_filled.png", "virtual"),
+                      //     ),
+                      //     SizedBox(
+                      //       width: 5,
+                      //     ),
+                      //     // Text(
+                      //     //   "Chỉnh sửa thông tin",
+                      //     //   style: TextStyle(color: AppColor.orange),
+                      //     // ),
+                      //   ],
+                      // ),
                       SizedBox(
                         height: 10,
                       ),
@@ -103,58 +105,58 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(
                         height: 40,
                       ),
-                      const CustomFormImput(
+                      CustomFormImput(
                         label: "Tên",
-                        value: "Emilia Clarke",
+                        value: dataUser[1].toString(),
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      const CustomFormImput(
+                      CustomFormImput(
                         label: "Email",
-                        value: "emiliaclarke@email.com",
+                        value: dataUser[3].toString(),
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       CustomFormImput(
                         label: "Mobile No",
-                        value: "emiliaclarke@email.com",
+                        value: dataUser[4].toString(),
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       CustomFormImput(
                         label: "Địa chỉ",
-                        value: "No 23, 6th Lane, Colombo 03",
+                        value: dataUser[5].toString(),
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      CustomFormImput(
-                        label: "Mật khẩu",
-                        value: "Emilia Clarke",
-                        isPassword: true,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CustomFormImput(
-                        label: "Xác nhận mật khẩu",
-                        value: "Emilia Clarke",
-                        isPassword: true,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 50,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text("Lưu"),
-                        ),
-                      )
+                      // CustomFormImput(
+                      //   label: "Mật khẩu",
+                      //   value: "Emilia Clarke",
+                      //   isPassword: true,
+                      // ),
+                      // SizedBox(
+                      //   height: 20,
+                      // ),
+                      // CustomFormImput(
+                      //   label: "Xác nhận mật khẩu",
+                      //   value: "Emilia Clarke",
+                      //   isPassword: true,
+                      // ),
+                      // SizedBox(
+                      //   height: 20,
+                      // ),
+                      // SizedBox(
+                      //   height: 50,
+                      //   width: double.infinity,
+                      //   child: ElevatedButton(
+                      //     onPressed: () {},
+                      //     child: Text("Lưu"),
+                      //   ),
+                      // )
                     ],
                   ),
                 ),

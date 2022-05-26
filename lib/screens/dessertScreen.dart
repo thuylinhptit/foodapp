@@ -24,7 +24,7 @@ class DessertScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).pop();
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.arrow_back_ios_rounded,
                             color: AppColor.primary,
                           ),
@@ -48,13 +48,13 @@ class DessertScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   SearchBar(
                     title: "Tìm kiếm món ăn",
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   DessertCard(

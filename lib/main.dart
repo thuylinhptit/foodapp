@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food/screens/changeAddressScreen.dart';
+import 'package:food/screens/listFoodScreen.dart';
 
 import './screens/spashScreen.dart';
 import './screens/landingScreen.dart';
@@ -81,7 +82,7 @@ class MyApp extends StatelessWidget {
         LandingScreen.routeName: (context) => LandingScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
         SignUpScreen.routeName: (context) => SignUpScreen(),
-        ForgetPwScreen.routeName: (context) => ForgetPwScreen(),
+        // ForgetPwScreen.routeName: (context) => ForgetPwScreen(),
         IntroScreen.routeName: (context) => IntroScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         MenuScreen.routeName: (context) => MenuScreen(),
@@ -91,6 +92,7 @@ class MyApp extends StatelessWidget {
         DessertScreen.routeName: (context) => DessertScreen(),
         IndividualItem.routeName: (context) => IndividualItem(),
         MyOrderScreen.routeName: (context) => MyOrderScreen(),
+        ListFoodScreen.routeName: (context) => ListFoodScreen(),
       },
     );
   }

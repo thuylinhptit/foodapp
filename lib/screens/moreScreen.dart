@@ -46,9 +46,10 @@ class MoreScreen extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount: 3,
                           itemBuilder: (context, pos) {
-                            return BurgerCard(
+                            return const BurgerCard(
                               price: "17",
                               name: "Cheese Chicken Burger",
+                              image: "hamburger.jpg",
                             );
                           })),
                 ),

@@ -53,9 +53,9 @@ class LoginScreen extends StatelessWidget {
                       ),
                       contentPadding: EdgeInsets.only(left: 40),
                     ),
-                    onChanged: (value) {
-                      editingControllerEmail.text = value;
-                    },
+                    // onChanged: (value) {
+                    //   editingControllerEmail.text = value;
+                    // },
                   ),
                 ),
                 const Spacer(),
@@ -77,9 +77,9 @@ class LoginScreen extends StatelessWidget {
                       ),
                       contentPadding: EdgeInsets.only(left: 40),
                     ),
-                    onChanged: (value) {
-                      editingControllerPass.text = value;
-                    },
+                    // onChanged: (value) {
+                    //   editingControllerPass.text = value;
+                    // },
                   ),
                 ),
                 Spacer(),
@@ -87,14 +87,20 @@ class LoginScreen extends StatelessWidget {
                   height: 50,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // print(postLogin(editingControllerEmail.text,
-                      //     editingControllerPass.text));
+                    onPressed: () async {
+                      var response = await postLogin(
+                          editingControllerEmail.text,
+                          editingControllerPass.text);
+                      if (response) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => IntroScreen()),
+                        );
+                      } else {
+                        print("FALSE");
+                      }
                       //text
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => IntroScreen()),
-                      );
                     },
                     child: Text("Đăng nhập"),
                   ),
@@ -102,8 +108,8 @@ class LoginScreen extends StatelessWidget {
                 Spacer(),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context)
-                        .pushReplacementNamed(ForgetPwScreen.routeName);
+                    // Navigator.of(context)
+                    //     .pushReplacementNamed(ForgetPwScreen.routeName);
                   },
                   child: Text("Quên mật khẩu ?"),
                 ),

@@ -55,7 +55,7 @@ class MenuScreen extends StatelessWidget {
                         Container(
                           height: double.infinity,
                           width: 100,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(30),
@@ -84,7 +84,7 @@ class MenuScreen extends StatelessWidget {
                                 name: "Món ăn",
                                 count: "120",
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               MenuCard(
@@ -103,7 +103,7 @@ class MenuScreen extends StatelessWidget {
                                 name: "Đồ uống",
                                 count: "220",
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               GestureDetector(
@@ -128,7 +128,7 @@ class MenuScreen extends StatelessWidget {
                                   count: "135",
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               MenuCard(

@@ -5,6 +5,7 @@ import '../utils/helper.dart';
 import '../widgets/customNavBar.dart';
 import '../screens/individualItem.dart';
 import '../widgets/searchBar.dart';
+import 'listFoodScreen.dart';
 import 'myOrderScreen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -19,7 +20,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -43,11 +44,11 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
+                  const Padding(
+                    padding: EdgeInsets.symmetric(
                       horizontal: 20,
                     ),
                     child: Text("Chọn địa điểm"),
@@ -155,15 +156,20 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  RestaurantCard(
-                    image: Image.asset(
-                      Helper.getAssetName("pizza2.jpg", "real"),
-                      fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(ListFoodScreen.routeName);
+                    },
+                    child: RestaurantCard(
+                      image: Image.asset(
+                        Helper.getAssetName("pizza2.jpg", "real"),
+                        fit: BoxFit.cover,
+                      ),
+                      name: "NaCl",
                     ),
-                    name: "NaCl",
                   ),
                   RestaurantCard(
                     image: Image.asset(

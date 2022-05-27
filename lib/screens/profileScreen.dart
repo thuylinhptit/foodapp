@@ -10,7 +10,9 @@ class ProfileScreen extends StatelessWidget {
   static const routeName = "/profileScreen";
   @override
   Widget build(BuildContext context) {
-    print(dataUser);
+    TextEditingController nameController = TextEditingController();
+    TextEditingController addressController = TextEditingController();
+    TextEditingController passController = TextEditingController();
     return Scaffold(
       body: Stack(
         children: [
@@ -21,7 +23,8 @@ class ProfileScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
+                  child: ListView(
+                    shrinkWrap: true,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,70 +47,98 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      ClipOval(
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: 80,
-                              width: 80,
-                              child: Image.asset(
-                                Helper.getAssetName(
-                                  "user.jpg",
-                                  "real",
+                      Column(
+                        children: [
+                          ClipOval(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: 80,
+                                  width: 80,
+                                  child: Image.asset(
+                                    Helper.getAssetName(
+                                      "user.jpg",
+                                      "real",
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                                fit: BoxFit.cover,
-                              ),
+                                Positioned(
+                                  bottom: 0,
+                                  child: Container(
+                                    height: 20,
+                                    width: 80,
+                                    color: Colors.black.withOpacity(0.3),
+                                    child: Image.asset(Helper.getAssetName(
+                                        "camera.png", "virtual")),
+                                  ),
+                                )
+                              ],
                             ),
-                            Positioned(
-                              bottom: 0,
-                              child: Container(
-                                height: 20,
-                                width: 80,
-                                color: Colors.black.withOpacity(0.3),
-                                child: Image.asset(Helper.getAssetName(
-                                    "camera.png", "virtual")),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                Helper.getAssetName(
+                                    "edit_filled.png", "virtual"),
                               ),
-                            )
-                          ],
-                        ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Text(
+                                "Chỉnh sửa thông tin",
+                                style: TextStyle(color: AppColor.orange),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Hi!",
+                            style: Helper.getTheme(context).headline4?.copyWith(
+                                  color: AppColor.primary,
+                                ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text("Đăng xuất"),
+                        ],
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     Image.asset(
-                      //       Helper.getAssetName("edit_filled.png", "virtual"),
-                      //     ),
-                      //     SizedBox(
-                      //       width: 5,
-                      //     ),
-                      //     // Text(
-                      //     //   "Chỉnh sửa thông tin",
-                      //     //   style: TextStyle(color: AppColor.orange),
-                      //     // ),
-                      //   ],
-                      // ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Hi!",
-                        style: Helper.getTheme(context).headline4?.copyWith(
-                              color: AppColor.primary,
-                            ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text("Đăng xuất"),
                       const SizedBox(
                         height: 40,
                       ),
-                      CustomFormImput(
-                        label: "Tên",
-                        value: dataUser[1].toString(),
+                      Container(
+                        width: double.infinity,
+                        height: 50,
+                        padding: const EdgeInsets.only(left: 40),
+                        decoration: const ShapeDecoration(
+                          shape: StadiumBorder(),
+                          color: AppColor.placeholderBg,
+                        ),
+                        child: TextField(
+                          controller: nameController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            labelText: "Tên",
+                            contentPadding: const EdgeInsets.only(
+                              top: 10,
+                              bottom: 10,
+                            ),
+                            hintText: dataUser[1].toString(),
+                            hintStyle: const TextStyle(
+                              color: AppColor.placeholder,
+                            ),
+                          ),
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
@@ -116,54 +147,96 @@ class ProfileScreen extends StatelessWidget {
                         label: "Email",
                         value: dataUser[3].toString(),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       CustomFormImput(
                         label: "Mobile No",
                         value: dataUser[4].toString(),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      CustomFormImput(
-                        label: "Địa chỉ",
-                        value: dataUser[5].toString(),
+                      Container(
+                        width: double.infinity,
+                        height: 50,
+                        padding: const EdgeInsets.only(left: 40),
+                        decoration: const ShapeDecoration(
+                          shape: StadiumBorder(),
+                          color: AppColor.placeholderBg,
+                        ),
+                        child: TextField(
+                          controller: addressController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelText: "Địa chỉ",
+                              contentPadding: const EdgeInsets.only(
+                                top: 10,
+                                bottom: 10,
+                              ),
+                              hintText: dataUser[5].toString()),
+                          obscureText: false,
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      // CustomFormImput(
-                      //   label: "Mật khẩu",
-                      //   value: "Emilia Clarke",
-                      //   isPassword: true,
-                      // ),
-                      // SizedBox(
-                      //   height: 20,
-                      // ),
-                      // CustomFormImput(
-                      //   label: "Xác nhận mật khẩu",
-                      //   value: "Emilia Clarke",
-                      //   isPassword: true,
-                      // ),
-                      // SizedBox(
-                      //   height: 20,
-                      // ),
-                      // SizedBox(
-                      //   height: 50,
-                      //   width: double.infinity,
-                      //   child: ElevatedButton(
-                      //     onPressed: () {},
-                      //     child: Text("Lưu"),
-                      //   ),
-                      // )
+                      Container(
+                        width: double.infinity,
+                        height: 50,
+                        padding: const EdgeInsets.only(left: 40),
+                        decoration: const ShapeDecoration(
+                          shape: StadiumBorder(),
+                          color: AppColor.placeholderBg,
+                        ),
+                        child: TextField(
+                          controller: passController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelText: "Mật khẩu",
+                              contentPadding: EdgeInsets.only(
+                                top: 10,
+                                bottom: 10,
+                              ),
+                              hintText: dataUser[2].toString()),
+                          obscureText: false,
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            print(dataUser[3]);
+                            postEditUser(
+                                dataUser[3],
+                                dataUser[4],
+                                nameController.text,
+                                addressController.text,
+                                passController.text);
+                          },
+                          child: Text("Lưu"),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 130,
+                      )
                     ],
                   ),
                 ),
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             bottom: 0,
             left: 0,
             child: CustomNavBar(

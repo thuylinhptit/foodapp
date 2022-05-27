@@ -26,7 +26,8 @@ class LoginScreen extends StatelessWidget {
               horizontal: 40,
               vertical: 30,
             ),
-            child: Column(
+            child: ListView(
+              shrinkWrap: true,
               children: [
                 Text(
                   "Đăng nhập",

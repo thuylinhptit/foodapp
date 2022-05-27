@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food/data/data_login.dart';
 import 'package:food/main.dart';
 
 import '../const/colors.dart';
@@ -10,208 +11,235 @@ class MoreScreen extends StatelessWidget {
   static const routeName = "/moreScreen";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          SafeArea(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back_ios_rounded,
-                      ),
+    return FutureBuilder(
+        future: getBill(dataUser[3].toString(), dataUser[4].toString()),
+        builder: (context, snapshot) {
+          print(dataBill[dataBill.length - 1]['detail']);
+          if (snapshot.hasData) {
+            print(dataBill);
+            return Scaffold(
+              body: Stack(
+                children: [
+                  SafeArea(
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back_ios_rounded,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                "Hoá đơn của bạn",
+                                style: Helper.getTheme(context).headline5,
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          color: AppColor.placeholderBg,
+                          child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: 4,
+                                  itemBuilder: (context, pos) {
+                                    return const BurgerCard(
+                                      price: 3,
+                                      // dataBill[dataBill.length - 1]
+                                      // ['detail'][pos]['price']
+                                      name: "Cơm rang",
+                                      image: "hamburger.jpg",
+                                      count: 3,
+                                      // dataBill[dataBill.length - 1]
+                                      // ['detail'][pos]['quantity']
+                                    );
+                                  })),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: AppColor.placeholder
+                                          .withOpacity(0.25),
+                                    ),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        "Giao đến",
+                                        style:
+                                            Helper.getTheme(context).headline3,
+                                      ),
+                                    ),
+                                    TextButton(
+                                        onPressed: () {},
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.add,
+                                              color: AppColor.orange,
+                                            ),
+                                            Text(
+                                              "Thêm",
+                                              style: TextStyle(
+                                                color: AppColor.orange,
+                                              ),
+                                            )
+                                          ],
+                                        ))
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: AppColor.placeholder
+                                          .withOpacity(0.25),
+                                    ),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        "Số điện thoại",
+                                        style:
+                                            Helper.getTheme(context).headline3,
+                                      ),
+                                    ),
+                                    TextButton(
+                                        onPressed: () {},
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.add,
+                                              color: AppColor.orange,
+                                            ),
+                                            Text(
+                                              "Thêm",
+                                              style: TextStyle(
+                                                color: AppColor.orange,
+                                              ),
+                                            )
+                                          ],
+                                        ))
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "Giá tiền",
+                                      style: Helper.getTheme(context).headline3,
+                                    ),
+                                  ),
+                                  Text(
+                                    priceFood.toString(),
+                                    style: Helper.getTheme(context)
+                                        .headline3
+                                        ?.copyWith(
+                                          color: AppColor.orange,
+                                        ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "Phí vận chuyển",
+                                      style: Helper.getTheme(context).headline3,
+                                    ),
+                                  ),
+                                  Text(
+                                    "\$2",
+                                    style: Helper.getTheme(context)
+                                        .headline3
+                                        ?.copyWith(
+                                          color: AppColor.orange,
+                                        ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                color: AppColor.placeholder.withOpacity(0.25),
+                                thickness: 1.5,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "Tổng tiền",
+                                      style: Helper.getTheme(context).headline3,
+                                    ),
+                                  ),
+                                  Text(
+                                    (priceFood + 2).toString(),
+                                    style: Helper.getTheme(context)
+                                        .headline3
+                                        ?.copyWith(
+                                          color: AppColor.orange,
+                                          fontSize: 22,
+                                        ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 20),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                    Expanded(
-                      child: Text(
-                        "Hoá đơn của bạn",
-                        style: Helper.getTheme(context).headline5,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  width: double.infinity,
-                  color: AppColor.placeholderBg,
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 3,
-                          itemBuilder: (context, pos) {
-                            return const BurgerCard(
-                              price: "17",
-                              name: "Cheese Chicken Burger",
-                              image: "hamburger.jpg",
-                            );
-                          })),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: AppColor.placeholder.withOpacity(0.25),
-                            ),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Giao đến",
-                                style: Helper.getTheme(context).headline3,
-                              ),
-                            ),
-                            TextButton(
-                                onPressed: () {},
-                                child: Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.add,
-                                      color: AppColor.orange,
-                                    ),
-                                    Text(
-                                      "Thêm",
-                                      style: TextStyle(
-                                        color: AppColor.orange,
-                                      ),
-                                    )
-                                  ],
-                                ))
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: AppColor.placeholder.withOpacity(0.25),
-                            ),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Số điện thoại",
-                                style: Helper.getTheme(context).headline3,
-                              ),
-                            ),
-                            TextButton(
-                                onPressed: () {},
-                                child: Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.add,
-                                      color: AppColor.orange,
-                                    ),
-                                    Text(
-                                      "Thêm",
-                                      style: TextStyle(
-                                        color: AppColor.orange,
-                                      ),
-                                    )
-                                  ],
-                                ))
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "Giá tiền",
-                              style: Helper.getTheme(context).headline3,
-                            ),
-                          ),
-                          Text(
-                            priceFood.toString(),
-                            style: Helper.getTheme(context).headline3?.copyWith(
-                                  color: AppColor.orange,
-                                ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "Phí vận chuyển",
-                              style: Helper.getTheme(context).headline3,
-                            ),
-                          ),
-                          Text(
-                            "\$2",
-                            style: Helper.getTheme(context).headline3?.copyWith(
-                                  color: AppColor.orange,
-                                ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Divider(
-                        color: AppColor.placeholder.withOpacity(0.25),
-                        thickness: 1.5,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "Tổng tiền",
-                              style: Helper.getTheme(context).headline3,
-                            ),
-                          ),
-                          Text(
-                            (priceFood + 2).toString(),
-                            style: Helper.getTheme(context).headline3?.copyWith(
-                                  color: AppColor.orange,
-                                  fontSize: 22,
-                                ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                    ],
                   ),
-                )
-              ],
-            ),
-          ),
-          const Positioned(
-            bottom: 0,
-            left: 0,
-            child: CustomNavBar(),
-          ),
-        ],
-      ),
-    );
+                  const Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: CustomNavBar(),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Container();
+          }
+        });
   }
 }
 
@@ -300,7 +328,7 @@ class MoreCard extends StatelessWidget {
                   margin: const EdgeInsets.only(
                     right: 50,
                   ),
-                  decoration: ShapeDecoration(
+                  decoration: const ShapeDecoration(
                     shape: CircleBorder(),
                     color: Colors.red,
                   ),

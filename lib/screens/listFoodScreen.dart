@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food/data/data_login.dart';
+import 'package:food/model/food_item.dart';
 import 'package:food/screens/homeScreen.dart';
 import 'package:food/screens/individualItem.dart';
 
@@ -9,16 +10,29 @@ import '../widgets/customNavBar.dart';
 import '../widgets/searchBar.dart';
 import 'dart:convert' as convert;
 
-class ListFoodScreen extends StatelessWidget {
+class ListFoodScreen extends StatefulWidget {
   static const routeName = '/foodScreen';
   @override
+  _ListFoodScreen createState() => _ListFoodScreen();
+}
+
+class _ListFoodScreen extends State<ListFoodScreen> {
+  @override
   Widget build(BuildContext context) {
+    TextEditingController searchText = TextEditingController();
+    List<FoodItem> listFoodItem = [];
+    for (int i = 0; i < dataFood["result"].length; i++) {
+      listFoodItem.add(FoodItem(dataFood["result"][i]["thumbnail"],
+          dataFood["result"][i]["rating"], dataFood["result"][i]["name"]));
+    }
+    getSearchFood("pho");
+    print("OOOOO");
+
     return Scaffold(
         body: FutureBuilder(
-      future: getCountItem(),
+      future: getItem(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        // var dataItem = convert.jsonDecode(getItem().toString());
-        print(getCountItem());
+        print(dataFood);
         return Stack(
           children: [
             SafeArea(
@@ -60,29 +74,73 @@ class ListFoodScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    SearchBar(
-                      title: "Tìm kiếm món ăn",
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        height: 50,
+                        width: double.infinity,
+                        decoration: const ShapeDecoration(
+                          shape: StadiumBorder(),
+                          color: AppColor.placeholderBg,
+                        ),
+                        child: TextField(
+                          controller: searchText,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            prefixIcon: Image.asset(
+                              Helper.getAssetName(
+                                  "search_filled.png", "virtual"),
+                            ),
+                            hintText: "Tìm kiếm món ăn",
+                            hintStyle: const TextStyle(
+                              color: AppColor.placeholder,
+                              fontSize: 18,
+                            ),
+                            contentPadding: const EdgeInsets.only(
+                              top: 17,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     ListView.builder(
                         shrinkWrap: true,
-                        itemCount: 6,
+                        itemCount: listFoodItem.length,
                         itemBuilder: (context, pos) {
                           return Column(
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(IndividualItem.routeName);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => IndividualItem(
+                                                id: dataFood["result"][pos]
+                                                    ["id"],
+                                                rating: dataFood["result"][pos]
+                                                    ["rating"],
+                                                decs: dataFood["result"][pos]
+                                                    ["description"],
+                                                price: dataFood["result"][pos]
+                                                    ["price"],
+                                                name: dataFood["result"][pos]
+                                                    ["name"],
+                                                image: dataFood["result"][pos]
+                                                    ["thumbnail"],
+                                              )));
                                 },
                                 child: RecentItemCard(
-                                    image: Image.asset(
-                                      Helper.getAssetName("coffee.jpg", "real"),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    name: "Capuchino"),
+                                  image: Image.asset(
+                                    Helper.getAssetName(
+                                        listFoodItem[pos].image, "real"),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  name: listFoodItem[pos].name,
+                                  rating: listFoodItem[pos].rating,
+                                ),
                               ),
                               const SizedBox(
                                 height: 20,
@@ -90,14 +148,14 @@ class ListFoodScreen extends StatelessWidget {
                             ],
                           );
                         }),
-                    SizedBox(
+                    const SizedBox(
                       height: 100,
                     )
                   ],
                 ),
               ),
             ),
-            Positioned(
+            const Positioned(
               bottom: 0,
               left: 0,
               child: CustomNavBar(
@@ -172,34 +230,34 @@ class DessertCard extends StatelessWidget {
                       Image.asset(
                         Helper.getAssetName("star_filled.png", "virtual"),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Text(
                         _rating,
                         style: TextStyle(color: AppColor.orange),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Text(
                         _shop,
                         style: TextStyle(color: Colors.white),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
                         child: Text(
                           ".",
                           style: TextStyle(color: AppColor.orange),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
-                      Text(
+                      const Text(
                         "Desserts",
                         style: TextStyle(color: Colors.white),
                       ),

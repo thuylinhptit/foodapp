@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food/data/data_login.dart';
 
 import '../const/colors.dart';
 import '../utils/helper.dart';
@@ -12,302 +13,332 @@ class HomeScreen extends StatelessWidget {
   static const routeName = "/homeScreen";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return FutureBuilder(
+        future: getItem(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          // print(dataFood);
+          if (snapshot.hasData) {
+            return Scaffold(
+              body: Stack(
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Chào buổi sáng!",
-                          style: Helper.getTheme(context).headline5,
-                        ),
-                        GestureDetector(
+                  SafeArea(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Chào buổi sáng!",
+                                  style: Helper.getTheme(context).headline5,
+                                ),
+                                GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .pushNamed(MyOrderScreen.routeName);
+                                    },
+                                    child: Image.asset(Helper.getAssetName(
+                                        "cart.png", "virtual")))
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                            ),
+                            child: Text("Chọn địa điểm"),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: SizedBox(
+                                width: 250,
+                                child: DropdownButton(
+                                  value: "vị trí hiện tại",
+                                  items: const [
+                                    DropdownMenuItem(
+                                      child: Text("Vị trí hiện tại"),
+                                      value: "vị trí hiện tại",
+                                    ),
+                                  ],
+                                  icon: Image.asset(
+                                    Helper.getAssetName(
+                                        "dropdown_filled.png", "virtual"),
+                                  ),
+                                  style: Helper.getTheme(context).headline4,
+                                  onChanged: (_) {},
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SearchBar(
+                            title: "Tìm kiếm món ăn",
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                            ),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  CategoryCard(
+                                    image: Image.asset(
+                                      Helper.getAssetName(
+                                          "hamburger2.jpg", "real"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    name: "Offers",
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  CategoryCard(
+                                    image: Image.asset(
+                                      Helper.getAssetName("rice2.jpg", "real"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    name: "Sri Lankan",
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  CategoryCard(
+                                    image: Image.asset(
+                                      Helper.getAssetName("fruit.jpg", "real"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    name: "Italian",
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  CategoryCard(
+                                    image: Image.asset(
+                                      Helper.getAssetName("rice.jpg", "real"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    name: "Indian",
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Cửa hàng nổi bật",
+                                  style: Helper.getTheme(context).headline5,
+                                ),
+                                TextButton(
+                                    onPressed: () {}, child: Text("Xem tất cả"))
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          GestureDetector(
                             onTap: () {
+                              print("Press");
                               Navigator.of(context)
-                                  .pushNamed(MyOrderScreen.routeName);
+                                  .pushNamed(ListFoodScreen.routeName);
                             },
-                            child: Image.asset(
-                                Helper.getAssetName("cart.png", "virtual")))
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Text("Chọn địa điểm"),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: SizedBox(
-                        width: 250,
-                        child: DropdownButton(
-                          value: "vị trí hiện tại",
-                          items: const [
-                            DropdownMenuItem(
-                              child: Text("Vị trí hiện tại"),
-                              value: "vị trí hiện tại",
+                            child: RestaurantCard(
+                              image: Image.asset(
+                                Helper.getAssetName("pizza2.jpg", "real"),
+                                fit: BoxFit.cover,
+                              ),
+                              name: "NaCl",
                             ),
-                          ],
-                          icon: Image.asset(
-                            Helper.getAssetName(
-                                "dropdown_filled.png", "virtual"),
                           ),
-                          style: Helper.getTheme(context).headline4,
-                          onChanged: (_) {},
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SearchBar(
-                    title: "Tìm kiếm món ăn",
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                    ),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          CategoryCard(
+                          GestureDetector(
+                            onTap: () {
+                              print("Press");
+                              Navigator.of(context)
+                                  .pushNamed(ListFoodScreen.routeName);
+                            },
+                            child: RestaurantCard(
+                              image: Image.asset(
+                                Helper.getAssetName("breakfast.jpg", "real"),
+                                fit: BoxFit.cover,
+                              ),
+                              name: "Đồ ăn nhanh",
+                            ),
+                          ),
+                          RestaurantCard(
                             image: Image.asset(
-                              Helper.getAssetName("hamburger2.jpg", "real"),
+                              Helper.getAssetName("bakery.jpg", "real"),
                               fit: BoxFit.cover,
                             ),
-                            name: "Offers",
+                            name: "Bánh ngọt",
                           ),
                           const SizedBox(
-                            width: 10,
+                            height: 50,
                           ),
-                          CategoryCard(
-                            image: Image.asset(
-                              Helper.getAssetName("rice2.jpg", "real"),
-                              fit: BoxFit.cover,
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Phổ biến nhất",
+                                  style: Helper.getTheme(context).headline5,
+                                ),
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text("Xem tất cả"),
+                                ),
+                              ],
                             ),
-                            name: "Sri Lankan",
                           ),
                           const SizedBox(
-                            width: 10,
+                            height: 20,
                           ),
-                          CategoryCard(
-                            image: Image.asset(
-                              Helper.getAssetName("fruit.jpg", "real"),
-                              fit: BoxFit.cover,
+                          Container(
+                            height: 250,
+                            width: double.infinity,
+                            padding: const EdgeInsets.only(left: 20),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  MostPopularCard(
+                                    image: Image.asset(
+                                      Helper.getAssetName("pizza4.jpg", "real"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    name: "Pizza",
+                                  ),
+                                  const SizedBox(
+                                    width: 30,
+                                  ),
+                                  MostPopularCard(
+                                    name: "Burger",
+                                    image: Image.asset(
+                                      Helper.getAssetName(
+                                          "dessert3.jpg", "real"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                            name: "Italian",
                           ),
                           const SizedBox(
-                            width: 10,
+                            height: 20,
                           ),
-                          CategoryCard(
-                            image: Image.asset(
-                              Helper.getAssetName("rice.jpg", "real"),
-                              fit: BoxFit.cover,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Món ăn gần bạn",
+                                  style: Helper.getTheme(context).headline5,
+                                ),
+                                TextButton(
+                                  onPressed: () {},
+                                  child: const Text("Xem tất cả"),
+                                ),
+                              ],
                             ),
-                            name: "Indian",
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Cửa hàng nổi bật",
-                          style: Helper.getTheme(context).headline5,
-                        ),
-                        TextButton(onPressed: () {}, child: Text("Xem tất cả"))
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(ListFoodScreen.routeName);
-                    },
-                    child: RestaurantCard(
-                      image: Image.asset(
-                        Helper.getAssetName("pizza2.jpg", "real"),
-                        fit: BoxFit.cover,
-                      ),
-                      name: "NaCl",
-                    ),
-                  ),
-                  RestaurantCard(
-                    image: Image.asset(
-                      Helper.getAssetName("breakfast.jpg", "real"),
-                      fit: BoxFit.cover,
-                    ),
-                    name: "Đồ ăn nhanh",
-                  ),
-                  RestaurantCard(
-                    image: Image.asset(
-                      Helper.getAssetName("bakery.jpg", "real"),
-                      fit: BoxFit.cover,
-                    ),
-                    name: "Bánh ngọt",
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Phổ biến nhất",
-                          style: Helper.getTheme(context).headline5,
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text("Xem tất cả"),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: 250,
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(left: 20),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          MostPopularCard(
-                            image: Image.asset(
-                              Helper.getAssetName("pizza4.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Pizza",
-                          ),
+                          Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: dataFood["result"].length,
+                                  itemBuilder: (context, pos) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        print("press");
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    IndividualItem(
+                                                      id: dataFood["result"]
+                                                          [pos]["id"],
+                                                      rating: dataFood["result"]
+                                                          [pos]["rating"],
+                                                      decs: dataFood["result"]
+                                                          [pos]["description"],
+                                                      price: dataFood["result"]
+                                                          [pos]["price"],
+                                                      name: dataFood["result"]
+                                                          [pos]["name"],
+                                                      image: dataFood["result"]
+                                                          [pos]["thumbnail"],
+                                                    )));
+                                      },
+                                      child: RecentItemCard(
+                                        image: Image.asset(
+                                          Helper.getAssetName(
+                                              dataFood["result"][pos]
+                                                  ["thumbnail"],
+                                              "real"),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        name: dataFood["result"][pos]["name"],
+                                        rating: dataFood["result"][pos]
+                                            ["rating"],
+                                      ),
+                                    );
+                                  })),
                           SizedBox(
-                            width: 30,
-                          ),
-                          MostPopularCard(
-                            name: "Burger",
-                            image: Image.asset(
-                              Helper.getAssetName("dessert3.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
+                            height: 100,
                           )
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Món ăn gần bạn",
-                          style: Helper.getTheme(context).headline5,
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text("Xem tất cả"),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(IndividualItem.routeName);
-                          },
-                          child: RecentItemCard(
-                            image: Image.asset(
-                              Helper.getAssetName("pizza3.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Pizza",
-                          ),
-                        ),
-                        RecentItemCard(
-                            image: Image.asset(
-                              Helper.getAssetName("coffee.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Capuchino"),
-                        RecentItemCard(
-                            image: Image.asset(
-                              Helper.getAssetName("pizza.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Pizza"),
-                        RecentItemCard(
-                            image: Image.asset(
-                              Helper.getAssetName("pizza.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Pizza"),
-                      ],
-                    ),
-                  )
+                  const Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: CustomNavBar(
+                        home: true,
+                      )),
                 ],
               ),
-            ),
-          ),
-          const Positioned(
-              bottom: 0,
-              left: 0,
-              child: CustomNavBar(
-                home: true,
-              )),
-        ],
-      ),
-    );
+            );
+          } else {
+            return Container();
+          }
+        });
   }
 }
 
@@ -315,11 +346,14 @@ class RecentItemCard extends StatelessWidget {
   const RecentItemCard({
     required String name,
     required Image image,
+    required double rating,
   })  : _name = name,
+        _rating = rating,
         _image = image;
 
   final String _name;
   final Image _image;
+  final double _rating;
 
   @override
   Widget build(BuildContext context) {
@@ -383,7 +417,7 @@ class RecentItemCard extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      "4.9",
+                      _rating.toString(),
                       style: TextStyle(
                         color: AppColor.orange,
                       ),
